@@ -1,4 +1,3 @@
-// models/Post.js
 import { model, Schema } from "mongoose";
 
 const PostSchema = new Schema(
@@ -17,12 +16,12 @@ const PostSchema = new Schema(
     author: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true, // ← RELACIÓN 1:N (1 usuario → N posts)
+      required: true,
     },
     categories: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Category", // ← RELACIÓN N:M (1 post → N categorías, 1 categoría → M posts)
+        ref: "Category",
       },
     ],
     isActive: {
