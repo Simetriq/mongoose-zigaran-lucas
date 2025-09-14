@@ -1,18 +1,24 @@
-import { UserModel } from "../models/user.model.js";
+import { ProfileModel } from "../models/perfil.model.js";
 
-export const createUser = async (req, res) => {
-  const { username, email, password } = req.body;
+export const createProfile = async (req, res) => {
+  const { userId, bio, birthday, age, country } = req.body;
   try {
-    const userCreated = await UserModel.create({
-      username,
-      email,
-      password,
+    const profileCreated = await ProfileModel.create({
+      user: userId,
+      bio,
+      person: {
+        birthday,
+        age,
+        country,
+      },
     });
+
+    await ProfileModel.populate("user", "username email");
 
     res.status(201).json({
       ok: true,
-      msg: "Usuario creado correctamente",
-      data: userCreated,
+      msg: "Perfil creado correctamente",
+      data: profileCreated,
     });
   } catch (error) {
     console.log(error);
@@ -23,30 +29,29 @@ export const createUser = async (req, res) => {
   }
 };
 
-export const getAllUser = async (req, res) => {
+export const getAllProfile = async (req, res) => {
   try {
-    const allUsers = await UserModel.find({ isActive: true });
+    const allProfiles = await ProfileModel.find();
     res.status(200).json({
       ok: true,
-      data: allUsers,
+      data: allProfiles,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       ok: false,
-      count: allUsers.length,
       msg: "Error interno del servidor",
     });
   }
 };
 
-export const getUserById = async (req, res) => {
+export const getProfileById = async (req, res) => {
   const { id } = req.params;
   try {
-    const userId = await UserModel.findById(id);
+    const profileId = await ProfileModel.findById(id);
     res.status(200).json({
       ok: true,
-      data: userId,
+      data: profileId,
     });
   } catch (error) {
     console.log(error);
@@ -57,17 +62,15 @@ export const getUserById = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
+export const deleteProfile = async (req, res) => {
   const { id } = req.params;
   try {
-    const userDeleted = await UserModel.findByIdAndUpdate(id, {
-      isActive: false,
-    });
+    const profileDeleted = await ProfileModel.findByIdAndUpdate(id);
 
     res.status(200).json({
       ok: true,
-      msg: "usuario eliminado correctamente",
-      data: userDeleted,
+      msg: "perfil eliminado correctamente",
+      data: profileDeleted,
     });
   } catch (error) {
     console.log(error);
@@ -78,21 +81,16 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-export const updateUser = async (req, res) => {
+export const updateProfile = async (req, res) => {
   const { id } = req.params;
-  const { username } = req.body;
 
   try {
-    const userUpdated = await UserModel.findByIdAndUpdate(
-      id,
-      { username },
-      { new: true }
-    );
+    const perfilUpdated = await UserModel.findByIdAndUpdate(id, { new: true });
 
     res.status(200).json({
       ok: true,
-      msg: "Usuario actualizado correctamente",
-      data: userUpdated,
+      msg: "Perfil actualizado correctamente",
+      data: perfilUpdated,
     });
   } catch (error) {
     console.log(error);
