@@ -6,20 +6,32 @@ import {
   updateCategory,
   deleteCategory,
 } from "../controllers/category.controller.js";
+import { categoryValidation } from "../middleware/validations/category.validation.js";
+import { applyValidations } from "../middleware/validator.js";
 
 export const categoryRouter = express.Router();
 
 // POST /api/categories - Crear una nueva categoría
-categoryRouter.post("/", createCategory);
+categoryRouter.post(
+  "/category",
+  categoryValidation,
+  applyValidations,
+  createCategory
+);
 
 // GET /api/categories - Obtener todas las categorías
-categoryRouter.get("/", getAllCategories);
+categoryRouter.get("/category", getAllCategories);
 
 // GET /api/categories/:id - Obtener una categoría por ID
-categoryRouter.get("/:id", getCategoryById);
+categoryRouter.get("/category/:id", getCategoryById);
 
 // PUT /api/categories/:id - Actualizar una categoría
-categoryRouter.put("/:id", updateCategory);
+categoryRouter.put(
+  "/category/:id",
+  categoryValidation,
+  applyValidations,
+  updateCategory
+);
 
 // DELETE /api/categories/:id - Eliminar una categoría (lógico)
-categoryRouter.delete("/:id", deleteCategory);
+categoryRouter.delete("/category/:id", deleteCategory);

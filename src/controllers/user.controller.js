@@ -1,4 +1,6 @@
 import { UserModel } from "../models/user.model.js";
+import { ProfileModel } from "../models/perfil.model.js";
+import { PostModel } from "../models/post.model.js";
 // Crear
 export const createUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -58,22 +60,29 @@ export const getUserById = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  const { id } = req.params;
   try {
-    const userDeleted = await UserModel.findByIdAndUpdate(id, {
-      isActive: false,
-    });
+    const user = await UserModel.findByIdAndUpdate(
+      req.params.id,
+      { isActive: false },
+      { new: true }
+    );
+
+    await ProfileModel.findOneAndUpdate(
+      { user: req.params.id },
+      { isActive: false }
+    );
+
+    await PostModel.updateMany({ author: req.params.id }, { isActive: false });
 
     res.status(200).json({
       ok: true,
-      msg: "usuario eliminado correctamente",
-      data: userDeleted,
+      msg: "Usuario y sus datos asociados eliminados correctamente",
+      data: user,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
+    res.status(500).json({
       ok: false,
-      msg: "Error interno del servidor",
+      msg: "Error al eliminar usuario",
     });
   }
 };

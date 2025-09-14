@@ -1,4 +1,4 @@
-import { PostModel } from "../models/Post.js";
+import { PostModel } from "../models/post.model.js";
 
 // CREATE - Crear post
 export const createPost = async (req, res) => {
@@ -129,6 +129,50 @@ export const deletePost = async (req, res) => {
     res.status(500).json({
       ok: false,
       msg: "Error al eliminar post",
+    });
+  }
+};
+
+export const addCategoryToPost = async (req, res) => {
+  try {
+    const { postId, categoryId } = req.params;
+
+    const post = await PostModel.findByIdAndUpdate(postId, {
+      new: true,
+    }).populate("categories", "name");
+
+    res.status(200).json({
+      ok: true,
+      msg: "Categoría agregada al post exitosamente",
+      data: post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: "Error al agregar categoría al post",
+    });
+  }
+};
+
+export const removeCategoryFromPost = async (req, res) => {
+  try {
+    const { postId, categoryId } = req.params;
+
+    const post = await PostModel.findByIdAndUpdate(
+      postId,
+      { $pull: { categories: categoryId } },
+      { new: true }
+    ).populate("categories", "name");
+
+    res.status(200).json({
+      ok: true,
+      msg: "Categoría removida del post exitosamente",
+      data: post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: "Error al remover categoría del post",
     });
   }
 };
