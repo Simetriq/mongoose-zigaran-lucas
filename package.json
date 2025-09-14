@@ -10,7 +10,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "devDependencies": {},
   "type": "module",
   "scripts": {
     "dev": "node --watch app.js"
