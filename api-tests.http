@@ -1,0 +1,99 @@
+@baseUrl = http://localhost:4000/api
+@contentType = application/json
+
+### 1. CREAR USUARIO
+POST http://localhost:4000/api/user
+Content-Type: {{contentType}}
+
+{
+  "username": "testuser",
+  "email": "test@email.com",
+  "password": "password123"
+}
+
+### 2. OBTENER TODOS LOS USUARIOS
+GET http://localhost:4000/api/user
+
+### 3. OBTENER USUARIO POR ID
+GET http://localhost:4000/api/user/68c80bb563f362f48055c6b8
+
+### 4. ACTUALIZAR USUARIO
+PUT http://localhost:4000/api/user/65c7a1b8f4a5d8b1e4f3a2c1
+Content-Type: {{contentType}}
+
+{
+  "username": "usuario_actualizado"
+}
+
+### 5. CREAR PERFIL (Relación 1:1)
+POST http://localhost:4000/api/profiles
+Content-Type: {{contentType}}
+
+{
+  "user": "65c7a1b8f4a5d8b1e4f3a2c1",
+  "bio": "Este es un perfil de prueba",
+  "person": {
+    "birthday": "2002-05-05",
+    "age": 28,
+    "country": "Argentina"
+  }
+}
+
+### 6. OBTENER TODOS LOS PERFILES
+GET http://localhost:4000/api/profiles
+
+### 7. OBTENER PERFIL POR ID
+GET http://localhost:4000/api/profiles/65c7a1b8f4a5d8b1e4f3a2c2
+
+### 8. CREAR CATEGORÍA
+POST http://localhost:4000/api/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Tecnología",
+  "description": "Todo sobre tecnología"
+}
+
+### 9. CREAR SEGUNDA CATEGORÍA
+POST http://localhost:4000/api/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Programación",
+  "description": "Artículos de programación"
+}
+
+### 10. OBTENER TODAS LAS CATEGORÍAS
+GET http://localhost:4000/api/categories
+
+### 11. CREAR POST (Relación 1:N y N:M)
+POST http://localhost:4000/api/posts
+Content-Type: {{contentType}}
+
+{
+  "title": "Mi primer post de tecnología",
+  "content": "Este es el contenido de mi primer post sobre tecnología y programación",
+  "author": "65c7a1b8f4a5d8b1e4f3a2c1",
+  "categories": ["65c7a1b8f4a5d8b1e4f3a2c3", "65c7a1b8f4a5d8b1e4f3a2c4"]
+}
+
+### 12. OBTENER TODOS LOS POSTS
+GET http://localhost:4000/api/posts
+
+### 13. OBTENER POST POR ID
+GET http://localhost:4000/api/posts/65c7a1b8f4a5d8b1e4f3a2c5
+
+### 14. AGREGAR CATEGORÍA A POST (N:M)
+POST http://localhost:4000/api/posts/65c7a1b8f4a5d8b1e4f3a2c5/categories/65c7a1b8f4a5d8b1e4f3a2c3
+
+### 15. REMOVER CATEGORÍA DE POST (N:M)
+DELETE http://localhost:4000/api/posts/65c7a1b8f4a5d8b1e4f3a2c5/categories/65c7a1b8f4a5d8b1e4f3a2c3
+
+### 16. ELIMINAR USUARIO (Cascada)
+DELETE http://localhost:4000/api/user/65c7a1b8f4a5d8b1e4f3a2c1
+
+### 17. VERIFICAR PERFIL DESACTIVADO (Cascada)
+GET http://localhost:4000/api/profiles?user=65c7a1b8f4a5d8b1e4f3a2c1
+
+### 18. VERIFICAR POSTS DESACTIVADOS (Cascada)
+GET http://localhost:4000/api/posts?author=65c7a1b8f4a5d8b1e4f3a2c1
