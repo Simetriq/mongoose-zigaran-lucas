@@ -1,7 +1,7 @@
 import { UserModel } from "../models/user.model.js";
 import { ProfileModel } from "../models/perfil.model.js";
 import { PostModel } from "../models/post.model.js";
-// Crear
+
 export const createUser = async (req, res) => {
   const { username, email, password } = req.body;
   try {

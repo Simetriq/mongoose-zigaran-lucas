@@ -1,6 +1,5 @@
 import { CategoryModel } from "../models/category.model.js";
 
-// CREATE - Crear categoría
 export const createCategory = async (req, res) => {
   try {
     const category = await CategoryModel.create(req.body);
@@ -19,7 +18,6 @@ export const createCategory = async (req, res) => {
   }
 };
 
-// READ - Obtener todas las categorías
 export const getAllCategories = async (req, res) => {
   try {
     const categories = await CategoryModel.find({ isActive: true }).sort({
@@ -39,7 +37,6 @@ export const getAllCategories = async (req, res) => {
   }
 };
 
-// READ - Obtener categoría por ID
 export const getCategoryById = async (req, res) => {
   try {
     const category = await CategoryModel.findOne({
@@ -66,7 +63,6 @@ export const getCategoryById = async (req, res) => {
   }
 };
 
-// UPDATE - Actualizar categoría
 export const updateCategory = async (req, res) => {
   try {
     const category = await CategoryModel.findOneAndUpdate(
@@ -95,7 +91,6 @@ export const updateCategory = async (req, res) => {
   }
 };
 
-// DELETE - Eliminación lógica de categoría
 export const deleteCategory = async (req, res) => {
   try {
     const category = await CategoryModel.findByIdAndUpdate(

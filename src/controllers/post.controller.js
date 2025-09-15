@@ -1,6 +1,5 @@
 import { PostModel } from "../models/post.model.js";
 
-// CREATE - Crear post
 export const createPost = async (req, res) => {
   try {
     const post = await PostModel.create(req.body);
@@ -21,7 +20,6 @@ export const createPost = async (req, res) => {
   }
 };
 
-// READ - Obtener todos los posts
 export const getAllPosts = async (req, res) => {
   try {
     const posts = await PostModel.find({ isActive: true })
@@ -42,7 +40,6 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
-// READ - Obtener post por ID
 export const getPostById = async (req, res) => {
   try {
     const post = await PostModel.findOne({
@@ -71,7 +68,6 @@ export const getPostById = async (req, res) => {
   }
 };
 
-// UPDATE - Actualizar post
 export const updatePost = async (req, res) => {
   try {
     const post = await PostModel.findOneAndUpdate(
@@ -102,7 +98,6 @@ export const updatePost = async (req, res) => {
   }
 };
 
-// DELETE - Eliminación lógica de post
 export const deletePost = async (req, res) => {
   try {
     const post = await PostModel.findByIdAndUpdate(
